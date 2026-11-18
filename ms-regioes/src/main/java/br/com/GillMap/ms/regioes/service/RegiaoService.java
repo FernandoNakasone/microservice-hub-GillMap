@@ -70,20 +70,20 @@ public class RegiaoService {
 
     }
 
-
     @Transactional
-    public void atualizarSituacao(Long id, Situacao situacao) {
+    public RegiaoResponseDTO atualizarSituacao(Long id, Situacao situacao) {
 
-        Optional<Regiao> regiao = regiaoRepository.findById(id);
+        Optional<Regiao> optionalRegiao = regiaoRepository.findById(id);
 
-        if (regiao.isEmpty()) {
-            throw new ResourceNotFoundException("Recurso não encontrado. Id: " + id);
-        }
+        Regiao regiao = optionalRegiao.orElseThrow(
+                () -> new ResourceNotFoundException("Recurso não encontrado. id: " + id)
+        );
 
-        regiao.get().setSituacao(situacao);
-        regiaoRepository.save(regiao.get());
+        regiao.setSituacao(situacao);
+        regiao = regiaoRepository.save(regiao);
+
+        return new RegiaoResponseDTO(regiao);
     }
-
 
     private void mapDtoToRegiao(RegiaoRequestDTO regiaoDTO, Regiao regiao) {
         regiao.setNome(regiaoDTO.getNome());

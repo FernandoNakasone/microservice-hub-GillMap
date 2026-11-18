@@ -28,11 +28,11 @@ public class RegiaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RegiaoResponseDTO> getRegiao(@PathVariable Long id){
+    public ResponseEntity<RegiaoResponseDTO> getRegiaoById(@PathVariable Long id){
 
-        RegiaoResponseDTO pedidoDto = regiaoService.findRegiaoById(id);
+        RegiaoResponseDTO regiaoDTO = regiaoService.findRegiaoById(id);
 
-        return ResponseEntity.ok(pedidoDto);
+        return ResponseEntity.ok(regiaoDTO);
     }
 
     @PostMapping
@@ -60,12 +60,27 @@ public class RegiaoController {
 
     }
 
-    @PutMapping("/{regiaoId}/alagamento/situacao")
-    public void mudarSituacao(@PathVariable Long regiaoId, @Valid Situacao situacao){
 
-        regiaoService.atualizarSituacao(regiaoId, situacao);
-
+    @PutMapping("/{id}/situacao/limpo")
+    public ResponseEntity<RegiaoResponseDTO> definirLimpo(@PathVariable Long id) {
+        return ResponseEntity.ok(regiaoService.atualizarSituacao(id, Situacao.LIMPO));
     }
+
+    @PutMapping("/{id}/situacao/leve")
+    public ResponseEntity<RegiaoResponseDTO> definirLeve(@PathVariable Long id) {
+        return ResponseEntity.ok(regiaoService.atualizarSituacao(id, Situacao.LEVE));
+    }
+
+    @PutMapping("/{id}/situacao/medio")
+    public ResponseEntity<RegiaoResponseDTO> definirMedio(@PathVariable Long id) {
+        return ResponseEntity.ok(regiaoService.atualizarSituacao(id, Situacao.MEDIO));
+    }
+
+    @PutMapping("/{id}/situacao/grave")
+    public ResponseEntity<RegiaoResponseDTO> definirGrave(@PathVariable Long id) {
+        return ResponseEntity.ok(regiaoService.atualizarSituacao(id, Situacao.GRAVE));
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRegiao(@PathVariable Long id){
