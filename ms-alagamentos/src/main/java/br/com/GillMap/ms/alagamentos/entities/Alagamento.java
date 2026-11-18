@@ -27,7 +27,7 @@ public class Alagamento {
     @Column(name = "descricao",nullable = false, length = 500)
     private String descricao;
 
-    @Column(name = "alturaAguaCm",nullable = false)
+    @Column(name = "altura_agua_cm", nullable = false)
     private Double alturaAguaCm;
 
     @Column(name = "data_hora", nullable = false)

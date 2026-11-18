@@ -4,6 +4,7 @@ import br.com.GillMap.ms.alagamentos.client.RegiaoClient;
 import br.com.GillMap.ms.alagamentos.dto.AlagamentoRequestDTO;
 import br.com.GillMap.ms.alagamentos.dto.AlagamentoResponseDTO;
 import br.com.GillMap.ms.alagamentos.entities.Alagamento;
+import br.com.GillMap.ms.alagamentos.exceptions.ResourceNotFoundException;
 import br.com.GillMap.ms.alagamentos.repositories.AlagamentoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class AlagamentoService {
     public AlagamentoResponseDTO findAlagamentoById(Long id) {
 
         Alagamento alagamento = alagamentoRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Recurso não encontrado. id: " + id)
+                () ->  new ResourceNotFoundException("Recurso não encontrado. id: " + id)
         );
 
         return new AlagamentoResponseDTO(alagamento);
@@ -53,7 +54,7 @@ public class AlagamentoService {
     public AlagamentoResponseDTO updateAlagamento(Long id, AlagamentoRequestDTO alagamentoDTO) {
 
         Alagamento alagamento = alagamentoRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Recurso não encontrado. id: " + id)
+                () -> new ResourceNotFoundException("Recurso não encontrado. id: " + id)
         );
 
         mapDtoToAlagamento(alagamentoDTO, alagamento);
@@ -66,7 +67,7 @@ public class AlagamentoService {
     public void deleteAlagamentoById(Long id) {
 
         if (!alagamentoRepository.existsById(id)) {
-            throw new EntityNotFoundException("Recurso não encontrado. id: " + id);
+            throw new ResourceNotFoundException("Recurso não encontrado. id: " + id);
         }
 
         alagamentoRepository.deleteById(id);

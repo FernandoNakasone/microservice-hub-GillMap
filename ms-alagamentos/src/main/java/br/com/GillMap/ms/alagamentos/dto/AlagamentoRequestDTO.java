@@ -1,10 +1,7 @@
 package br.com.GillMap.ms.alagamentos.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +14,7 @@ import lombok.Setter;
 public class AlagamentoRequestDTO {
 
     @NotNull(message = "O campo regiao não pode ser nulo")
-    @PositiveOrZero(message = "O campo regiaoId deve ser um número maior que zero")
+    @Positive(message = "O campo regiaoId deve ser um número maior que zero")
     @Schema(example = "1")
     private Long regiaoId;
 
