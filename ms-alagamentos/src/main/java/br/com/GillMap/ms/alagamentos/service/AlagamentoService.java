@@ -1,5 +1,6 @@
 package br.com.GillMap.ms.alagamentos.service;
 
+import br.com.GillMap.ms.alagamentos.client.RegiaoClient;
 import br.com.GillMap.ms.alagamentos.dto.AlagamentoRequestDTO;
 import br.com.GillMap.ms.alagamentos.dto.AlagamentoResponseDTO;
 import br.com.GillMap.ms.alagamentos.entities.Alagamento;
@@ -17,6 +18,9 @@ public class AlagamentoService {
 
     @Autowired
     private AlagamentoRepository alagamentoRepository;
+
+    @Autowired
+    private RegiaoClient regiaoClient;
 
     @Transactional(readOnly = true)
     public List<AlagamentoResponseDTO> findAllAlagamentos() {
@@ -41,6 +45,7 @@ public class AlagamentoService {
         alagamento.setDataHora(LocalDateTime.now());
 
         alagamento = alagamentoRepository.save(alagamento);
+        atualizarSituacao(alagamento.getRegiaoId(), alagamento.getAlturaAguaCm());
         return new AlagamentoResponseDTO(alagamento);
     }
 
@@ -53,7 +58,7 @@ public class AlagamentoService {
 
         mapDtoToAlagamento(alagamentoDTO, alagamento);
         alagamento = alagamentoRepository.save(alagamento);
-
+        atualizarSituacao(alagamento.getRegiaoId(), alagamento.getAlturaAguaCm());
         return new AlagamentoResponseDTO(alagamento);
     }
 
@@ -65,6 +70,20 @@ public class AlagamentoService {
         }
 
         alagamentoRepository.deleteById(id);
+    }
+
+    private void atualizarSituacao(Long reigaoId, Double alturaAguaCm){
+
+        if (alturaAguaCm == 0){
+            regiaoClient.definirLimpo(reigaoId);
+        } else if (alturaAguaCm <= 20) {
+            regiaoClient.definirLeve(reigaoId);
+        } else if (alturaAguaCm <= 40) {
+            regiaoClient.definirMedio(reigaoId);
+        } else{
+            regiaoClient.definirGrave(reigaoId);
+        }
+
     }
 
     private void mapDtoToAlagamento(AlagamentoRequestDTO alagamentoDTO, Alagamento alagamento) {
