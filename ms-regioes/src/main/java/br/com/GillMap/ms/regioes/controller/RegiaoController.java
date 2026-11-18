@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/regioes")
+@RequestMapping("/api/v1/regioes")
 public class RegiaoController {
 
     @Autowired

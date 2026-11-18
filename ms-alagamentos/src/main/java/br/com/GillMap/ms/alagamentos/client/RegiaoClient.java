@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface RegiaoClient {
 
     @RequestMapping(method = RequestMethod.PUT,
-            value = "/regioes/{regiaoId}/situacao/limpo")
+            value = "/api/v1/regioes/{regiaoId}/situacao/limpo")
     void definirLimpo(@PathVariable Long regiaoId);
 
     @RequestMapping(method = RequestMethod.PUT,
-            value = "/regioes/{regiaoId}/situacao/leve")
+            value = "/api/v1/regioes/{regiaoId}/situacao/leve")
     void definirLeve(@PathVariable Long regiaoId);
 
     @RequestMapping(method = RequestMethod.PUT,
-            value = "/regioes/{regiaoId}/situacao/medio")
+            value = "/api/v1/regioes/{regiaoId}/situacao/medio")
     void definirMedio(@PathVariable Long regiaoId);
 
     @RequestMapping(method = RequestMethod.PUT,
-            value = "/regioes/{regiaoId}/situacao/grave")
+            value = "/api/v1/regioes/{regiaoId}/situacao/grave")
     void definirGrave(@PathVariable Long regiaoId);
 }
